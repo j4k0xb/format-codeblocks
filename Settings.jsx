@@ -5,7 +5,7 @@ module.exports = ({ getSetting, toggleSetting }) => {
   return (
     <div>
       <SwitchItem
-        value={getSetting('autoFormat', false)}
+        value={getSetting('autoFormat', true)}
         onChange={() => toggleSetting('autoFormat')}
       >
         Automatically format code blocks
