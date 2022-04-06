@@ -1,0 +1,7 @@
+{
+  "name": "Format Codeblocks",
+  "version": "1.0.0",
+  "description": "Format codeblocks with prettier",
+  "author": "Jakob#8686",
+  "license": "MIT"
+}
