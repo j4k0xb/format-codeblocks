@@ -55,9 +55,10 @@ module.exports = class FormatCodeblocks extends Plugin {
         return JSON.stringify(JSON.parse(codeblock.content), null, 2);
       }
 
+      const config = JSON.parse(this.settings.get('prettierConfig', '{}'));
       const parser = this.getParser(codeblock.lang);
       return prettier
-        .format(codeblock.content, { parser, plugins })
+        .format(codeblock.content, { ...config, parser, plugins })
         .replace(/\n+$/, '');
     } catch (error) {
       console.warn(error);

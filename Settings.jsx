@@ -1,7 +1,7 @@
 const { React } = require('powercord/webpack');
-const { SwitchItem } = require('powercord/components/settings');
+const { SwitchItem, TextAreaInput } = require('powercord/components/settings');
 
-module.exports = ({ getSetting, toggleSetting }) => {
+module.exports = ({ getSetting, updateSetting, toggleSetting }) => {
   return (
     <div>
       <SwitchItem
@@ -10,6 +10,13 @@ module.exports = ({ getSetting, toggleSetting }) => {
       >
         Automatically format code blocks
       </SwitchItem>
+      <TextAreaInput
+        note="See https://prettier.io/docs/en/options.html"
+        value={getSetting('prettierConfig', '{\n\n}')}
+        onChange={val => updateSetting('prettierConfig', val)}
+      >
+        Prettier config (JSON format)
+      </TextAreaInput>
     </div>
   );
 };

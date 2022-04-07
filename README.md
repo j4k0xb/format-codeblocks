@@ -40,6 +40,12 @@ Automatically formats discord codeblocks using prettier (only visually, doesn't 
 - yml
 - yaml
 
+## Configuration
+
+Go to the settings and edit the config according to https://prettier.io/docs/en/options.html
+
+![prettier config](https://user-images.githubusercontent.com/55899582/162094846-31a0b9c0-2577-4417-9d09-9c2f7caba91d.png)
+
 ## Prettier
 
 Source of [parsers](./prettier): https://unpkg.com/prettier@2.6.2/
