@@ -1,5 +1,5 @@
 const { Plugin } = require('powercord/entities');
-const { getModule } = require('powercord/webpack');
+const { messages, getModule } = require('powercord/webpack');
 const { inject, uninject } = require('powercord/injector');
 const { getReactInstance } = require('powercord/util');
 
@@ -16,16 +16,48 @@ const plugins = [
 
 const Settings = require('./Settings');
 
-const codeblockInjectionId = 'formatCodeblocks';
+const codeblockInjectionId = 'format-codeblocks-parse';
+const sendMessageInjectionId = 'format-codeblocks-send-message';
 
 module.exports = class FormatCodeblocks extends Plugin {
   async startPlugin() {
-    powercord.api.settings.registerSettings('format-codeblocks', {
+    powercord.api.settings.registerSettings(this.entityID, {
       category: this.entityID,
       label: 'Format Codeblocks',
       render: Settings,
     });
 
+    await this.patchCodeblocks();
+    this.patchSendMessage();
+    this._forceUpdate();
+  }
+
+  pluginWillUnload() {
+    powercord.api.settings.unregisterSettings(this.entityID);
+    uninject(codeblockInjectionId);
+    uninject(sendMessageInjectionId);
+    this._forceUpdate();
+  }
+
+  patchSendMessage() {
+    inject(
+      sendMessageInjectionId,
+      messages,
+      'sendMessage',
+      args => {
+        const msg = args[1];
+        if (this.settings.get('formatOnSend', true)) {
+          msg.content = msg.content.replace(/```(.+?)\n(.+?)```/gsd, (_, lang, code) => {
+            return `\`\`\`${lang}\n${this.format(code, lang)}\n\`\`\``;
+          });
+        }
+        return args;
+      },
+      true
+    );
+  }
+
+  async patchCodeblocks() {
     const parser = await getModule(['parse', 'parseTopic']);
     inject(
       codeblockInjectionId,
@@ -33,12 +65,11 @@ module.exports = class FormatCodeblocks extends Plugin {
       'react',
       args => {
         if (args[0].lang && this.settings.get('autoFormat', true))
-          args[0].content = this.format(args[0]);
+          args[0].content = this.format(args[0].content, args[0].lang);
         return args;
       },
       true
     );
-    this._forceUpdate();
   }
 
   pluginWillUnload() {
@@ -47,22 +78,22 @@ module.exports = class FormatCodeblocks extends Plugin {
     this._forceUpdate();
   }
 
-  format(codeblock) {
-    console.log(`Formatting ${codeblock.lang}...`);
+  format(code, lang) {
+    this.log(`Formatting ${lang}...`);
 
     try {
-      if (codeblock.lang === 'json') {
-        return JSON.stringify(JSON.parse(codeblock.content), null, 2);
+      if (lang === 'json') {
+        return JSON.stringify(JSON.parse(code), null, 2);
       }
 
       const config = JSON.parse(this.settings.get('prettierConfig', '{}'));
-      const parser = this.getParser(codeblock.lang);
+      const parser = this.getParser(lang);
       return prettier
-        .format(codeblock.content, { ...config, parser, plugins })
+        .format(code, { ...config, parser, plugins })
         .replace(/\n+$/, '');
     } catch (error) {
       console.warn(error);
-      return codeblock.content;
+      return code;
     }
   }
 
@@ -108,6 +139,6 @@ module.exports = class FormatCodeblocks extends Plugin {
   _forceUpdate() {
     document
       .querySelectorAll('[id^="chat-messages-"] > div')
-      .forEach(e => getReactInstance(e).memoizedProps.onMouseMove());
+      .forEach(e => getReactInstance(e).memoizedProps.onMouseMove?.());
   }
 };

@@ -8,7 +8,13 @@ module.exports = ({ getSetting, updateSetting, toggleSetting }) => {
         value={getSetting('autoFormat', true)}
         onChange={() => toggleSetting('autoFormat')}
       >
-        Automatically format code blocks
+        Automatically format code blocks from all users
+      </SwitchItem>
+      <SwitchItem
+        value={getSetting('formatOnSend', true)}
+        onChange={() => toggleSetting('formatOnSend')}
+      >
+        Automatically format code blocks before sending
       </SwitchItem>
       <TextAreaInput
         note="See https://prettier.io/docs/en/options.html"
