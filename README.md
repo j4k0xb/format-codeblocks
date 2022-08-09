@@ -12,6 +12,14 @@ Automatically formats discord codeblocks using prettier (only visually, doesn't 
 
 ![after](https://user-images.githubusercontent.com/55899582/162087605-9de603a4-72c3-4f2c-ac30-2f5f64308597.png)
 
+## Installation
+
+Go to the Plugins folder and clone the repo:
+
+```sh
+git clone https://github.com/j4k0xb/format-codeblocks.git
+```
+
 ## Supported languages
 
 - js
@@ -49,3 +57,15 @@ Go to the settings and edit the config according to https://prettier.io/docs/en/
 ## Prettier
 
 Source of [parsers](./prettier): https://unpkg.com/prettier@2.6.2/
+
+## Planned features
+
+- context menu (toggle between format/raw)
+- select language of regular codeblock (list, sort by recently used, search?)
+- prettier settings UI validation/feedback, hljs json
+
+## Compatibility
+
+- [x] https://github.com/Vap0r1ze/vpc-shiki
+- [x] https://github.com/VenPlugs/Unindent
+- [x] https://github.com/powercord-org/powercord/blob/v2/src/Powercord/plugins/pc-codeblocks/index.js
