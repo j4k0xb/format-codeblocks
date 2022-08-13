@@ -45,9 +45,12 @@ module.exports = class FormatCodeblocks extends Plugin {
       messages,
       'sendMessage',
       args => {
+        /**
+         * @type {{content: string}}
+         */
         const msg = args[1];
         if (this.settings.get('formatOnSend', true)) {
-          msg.content = msg.content.replace(/```(.+?)\n(.+?)```/gsd, (_, lang, code) => {
+          msg.content = msg.content.replace(/```(.+?)\n(.+?)```/gs, (_, lang, code) => {
             return `\`\`\`${lang}\n${this.format(code, lang)}\n\`\`\``;
           });
         }
@@ -78,8 +81,13 @@ module.exports = class FormatCodeblocks extends Plugin {
     this._forceUpdate();
   }
 
+  /**
+   * @param {string} code 
+   * @param {string} lang 
+   * @returns {string} formatted code
+   */
   format(code, lang) {
-    this.log(`Formatting ${lang}...`);
+    this.debug(`Formatting ${lang}...`);
 
     try {
       if (lang === 'json') {
@@ -90,13 +98,17 @@ module.exports = class FormatCodeblocks extends Plugin {
       const parser = this.getParser(lang);
       return prettier
         .format(code, { ...config, parser, plugins })
-        .replace(/\n+$/, '');
+        .trim();
     } catch (error) {
-      console.warn(error);
+      this.warn(error);
       return code;
     }
   }
 
+  /**
+   * @param {string} lang 
+   * @returns {string}
+   */
   getParser(lang) {
     switch (lang) {
       case 'js':
