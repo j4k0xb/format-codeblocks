@@ -1,16 +1,8 @@
 # Format Codeblocks
 
-## Features
+Automatically formats discord codeblocks using prettier
 
-Automatically formats discord codeblocks using prettier (only visually, doesn't edit when sending).
-
-### Before
-
-![before](https://user-images.githubusercontent.com/55899582/162087746-1fd8b8bd-3bc9-4650-bf44-ebb79bf82c72.png)
-
-### After
-
-![after](https://user-images.githubusercontent.com/55899582/162087605-9de603a4-72c3-4f2c-ac30-2f5f64308597.png)
+![before_after](https://user-images.githubusercontent.com/55899582/184512146-67279339-fa6b-490e-be4d-c713a16cff6e.png)
 
 ## Installation
 
@@ -68,4 +60,4 @@ Source of [parsers](./prettier): https://unpkg.com/prettier@2.6.2/
 
 - [x] https://github.com/Vap0r1ze/vpc-shiki
 - [x] https://github.com/VenPlugs/Unindent
-- [x] https://github.com/powercord-org/powercord/blob/v2/src/Powercord/plugins/pc-codeblocks/index.js
+- [x] https://github.com/replugged-org/better-codeblocks
