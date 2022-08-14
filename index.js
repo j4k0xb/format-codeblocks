@@ -67,18 +67,13 @@ module.exports = class FormatCodeblocks extends Plugin {
       parser.defaultRules.codeBlock,
       'react',
       args => {
-        if (args[0].lang && this.settings.get('autoFormat', true))
+        if (args[0].lang && this.settings.get('autoFormat', true)) {
           args[0].content = this.format(args[0].content, args[0].lang);
+        }
         return args;
       },
       true
     );
-  }
-
-  pluginWillUnload() {
-    powercord.api.settings.unregisterSettings('format-codeblocks');
-    uninject(codeblockInjectionId);
-    this._forceUpdate();
   }
 
   /**
@@ -87,8 +82,6 @@ module.exports = class FormatCodeblocks extends Plugin {
    * @returns {string} formatted code
    */
   format(code, lang) {
-    this.debug(`Formatting ${lang}...`);
-
     try {
       if (lang === 'json') {
         return JSON.stringify(JSON.parse(code), null, 2);
@@ -96,23 +89,25 @@ module.exports = class FormatCodeblocks extends Plugin {
 
       const config = JSON.parse(this.settings.get('prettierConfig', '{}'));
       const parser = this.getParser(lang);
+      if (!parser) return code;
+
       return prettier
         .format(code, { ...config, parser, plugins })
         .trim();
     } catch (error) {
-      this.warn(error);
       return code;
     }
   }
 
   /**
    * @param {string} lang 
-   * @returns {string}
+   * @returns {string|undefined}
    */
   getParser(lang) {
     switch (lang) {
       case 'js':
       case 'javascript':
+      case 'jsx':
       case 'json':
         return 'babel';
       case 'ts':
@@ -143,8 +138,6 @@ module.exports = class FormatCodeblocks extends Plugin {
       case 'yml':
       case 'yaml':
         return 'yaml';
-      default:
-        return 'babel';
     }
   }
 
