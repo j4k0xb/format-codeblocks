@@ -1,5 +1,10 @@
-const { React } = require('powercord/webpack');
+const { React, getModuleByDisplayName } = require('powercord/webpack');
 const { SwitchItem, TextAreaInput } = require('powercord/components/settings');
+const AsyncComponent = require('powercord/components/AsyncComponent');
+
+const Anchor = AsyncComponent.from(getModuleByDisplayName('Anchor'));
+
+const PREITTER_CONFIG_DOCS = 'https://prettier.io/docs/en/options.html';
 
 module.exports = ({ getSetting, updateSetting, toggleSetting }) => {
   return (
@@ -17,7 +22,7 @@ module.exports = ({ getSetting, updateSetting, toggleSetting }) => {
         Automatically format code blocks before sending
       </SwitchItem>
       <TextAreaInput
-        note="See https://prettier.io/docs/en/options.html"
+        note={<>See <Anchor href={PREITTER_CONFIG_DOCS}>{PREITTER_CONFIG_DOCS}</Anchor></>}
         value={getSetting('prettierConfig', '{\n\n}')}
         onChange={val => updateSetting('prettierConfig', val)}
       >
