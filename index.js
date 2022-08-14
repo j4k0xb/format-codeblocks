@@ -18,8 +18,14 @@ const Settings = require('./Settings');
 
 const codeblockInjectionId = 'format-codeblocks-parse';
 const sendMessageInjectionId = 'format-codeblocks-send-message';
+const MAX_CACHE_SIZE = 25;
 
 module.exports = class FormatCodeblocks extends Plugin {
+  /**
+   * @type {Map<string, { lang: string, formatted: string }>}
+   */
+  codeCache = new Map();
+
   async startPlugin() {
     powercord.api.settings.registerSettings(this.entityID, {
       category: this.entityID,
@@ -67,13 +73,35 @@ module.exports = class FormatCodeblocks extends Plugin {
       parser.defaultRules.codeBlock,
       'react',
       args => {
-        if (args[0].lang && this.settings.get('autoFormat', true)) {
-          args[0].content = this.format(args[0].content, args[0].lang);
+        const [{ lang, content }] = args;
+
+        const cached = this.codeCache.get(content);
+        if (cached && cached.lang === lang) {
+          args[0].content = cached.formatted;
+          return args;
         }
+
+        if (lang && this.settings.get('autoFormat', true)) {
+          args[0].content = this.format(content, lang);
+          this.updateCache(content, args[0].content, lang);
+        }
+
         return args;
       },
       true
     );
+  }
+
+  /**
+   * @param {string} code
+   * @param {string} formatted
+   * @param {string} lang
+   */
+  updateCache(code, formatted, lang) {
+    this.codeCache.set(code, { lang, formatted });
+    if (this.codeCache.size > MAX_CACHE_SIZE) {
+      this.codeCache.delete(this.codeCache.keys().next().value);
+    }
   }
 
   /**
@@ -144,6 +172,7 @@ module.exports = class FormatCodeblocks extends Plugin {
   }
 
   _forceUpdate() {
+    this.codeCache.clear();
     document
       .querySelectorAll('[id^="chat-messages-"] > div')
       .forEach(e => getReactInstance(e).memoizedProps.onMouseMove?.());
