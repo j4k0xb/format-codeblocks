@@ -4,7 +4,7 @@ const AsyncComponent = require('powercord/components/AsyncComponent');
 
 const Anchor = AsyncComponent.from(getModuleByDisplayName('Anchor'));
 
-const PREITTER_CONFIG_DOCS = 'https://prettier.io/docs/en/options.html';
+const PRETTIER_CONFIG_DOCS = 'https://prettier.io/docs/en/options.html';
 
 module.exports = ({ getSetting, updateSetting, toggleSetting }) => {
   return (
@@ -13,16 +13,16 @@ module.exports = ({ getSetting, updateSetting, toggleSetting }) => {
         value={getSetting('autoFormat', true)}
         onChange={() => toggleSetting('autoFormat')}
       >
-        Automatically format code blocks from all users
+        Format codeblocks from all users
       </SwitchItem>
       <SwitchItem
         value={getSetting('formatOnSend', true)}
         onChange={() => toggleSetting('formatOnSend')}
       >
-        Automatically format code blocks before sending
+        Format codeblocks before sending
       </SwitchItem>
       <TextAreaInput
-        note={<>See <Anchor href={PREITTER_CONFIG_DOCS}>{PREITTER_CONFIG_DOCS}</Anchor></>}
+        note={<>See <Anchor href={PRETTIER_CONFIG_DOCS}>{PRETTIER_CONFIG_DOCS}</Anchor></>}
         value={getSetting('prettierConfig', '{\n\n}')}
         onChange={val => updateSetting('prettierConfig', val)}
       >
