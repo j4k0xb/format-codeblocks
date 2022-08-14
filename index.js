@@ -164,7 +164,7 @@ module.exports = class FormatCodeblocks extends Plugin {
         return 'markdown';
       case 'css':
       case 'scss':
-        return 'postcss';
+        return 'css';
       case 'yml':
       case 'yaml':
         return 'yaml';
