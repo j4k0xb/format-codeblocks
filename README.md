@@ -6,7 +6,7 @@ Automatically formats discord codeblocks using prettier
 
 ## Installation
 
-Go to the Plugins folder and clone the repo:
+Visit https://replugged.dev/install?url=j4k0xb/format-codeblocks or install manually by going to the Plugins folder and running:
 
 ```sh
 git clone https://github.com/j4k0xb/format-codeblocks.git
