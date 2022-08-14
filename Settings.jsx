@@ -4,7 +4,7 @@ const AsyncComponent = require('powercord/components/AsyncComponent');
 
 const Anchor = AsyncComponent.from(getModuleByDisplayName('Anchor'));
 
-const PREITTER_CONFIG_DOCS = 'https://prettier.io/docs/en/options.html'
+const PREITTER_CONFIG_DOCS = 'https://prettier.io/docs/en/options.html';
 
 module.exports = ({ getSetting, updateSetting, toggleSetting }) => {
   return (
