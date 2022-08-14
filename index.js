@@ -109,6 +109,7 @@ module.exports = class FormatCodeblocks extends Plugin {
       case 'javascript':
       case 'jsx':
       case 'json':
+      case 'tsx':
         return 'babel';
       case 'ts':
       case 'typescript':
@@ -131,6 +132,7 @@ module.exports = class FormatCodeblocks extends Plugin {
       case 'svg':
         return 'html';
       case 'markdown':
+      case 'md':
         return 'markdown';
       case 'css':
       case 'scss':

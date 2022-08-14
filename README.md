@@ -12,34 +12,6 @@ Go to the Plugins folder and clone the repo:
 git clone https://github.com/j4k0xb/format-codeblocks.git
 ```
 
-## Supported languages
-
-- js
-- javascript
-- json
-- ts
-- typescript
-- hbs
-- glimmer
-- html.hbs
-- html.handlebars
-- htmlbars
-- xml
-- html
-- xhtml
-- rss
-- atom
-- xjb
-- xsd
-- xsl
-- plist
-- svg
-- markdown
-- css
-- scss
-- yml
-- yaml
-
 ## Configuration
 
 Go to the settings and edit the config according to https://prettier.io/docs/en/options.html
