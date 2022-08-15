@@ -12,22 +12,6 @@ Visit https://replugged.dev/install?url=j4k0xb/format-codeblocks or install manu
 git clone https://github.com/j4k0xb/format-codeblocks.git
 ```
 
-## Configuration
-
-Go to the settings and edit the config according to https://prettier.io/docs/en/options.html
-
-![prettier config](https://user-images.githubusercontent.com/55899582/162094846-31a0b9c0-2577-4417-9d09-9c2f7caba91d.png)
-
-## Prettier
-
-Source of [parsers](./prettier): https://unpkg.com/prettier@2.6.2/
-
-## Planned features
-
-- context menu (toggle between format/raw)
-- select language of regular codeblock (list, sort by recently used, search?)
-- prettier settings UI validation/feedback, hljs json
-
 ## Compatibility
 
 - [x] https://github.com/Vap0r1ze/vpc-shiki
