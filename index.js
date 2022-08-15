@@ -157,6 +157,8 @@ module.exports = class FormatCodeblocks extends Plugin {
       case 'html.handlebars':
       case 'htmlbars':
         return 'glimmer';
+      case 'vue':
+      case 'angular':
       case 'xml':
       case 'html':
       case 'xhtml':
@@ -171,6 +173,7 @@ module.exports = class FormatCodeblocks extends Plugin {
       case 'markdown':
       case 'md':
         return 'markdown';
+      case 'less':
       case 'css':
       case 'scss':
         return 'css';
