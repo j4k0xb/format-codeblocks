@@ -1,12 +1,16 @@
 const { React, getModuleByDisplayName } = require('powercord/webpack');
-const { SwitchItem, TextAreaInput } = require('powercord/components/settings');
+const { Category, SwitchItem } = require('powercord/components/settings');
 const AsyncComponent = require('powercord/components/AsyncComponent');
+const PrettierSettings = require('./PrettierSettings');
 
 const Anchor = AsyncComponent.from(getModuleByDisplayName('Anchor'));
 
 const PRETTIER_CONFIG_DOCS = 'https://prettier.io/docs/en/options.html';
 
-module.exports = ({ getSetting, updateSetting, toggleSetting }) => {
+module.exports = props => {
+  const { getSetting, updateSetting, toggleSetting } = props;
+  const [prettierOpened, setPrettierOpened] = React.useState(true);
+
   return (
     <div>
       <SwitchItem
@@ -21,13 +25,26 @@ module.exports = ({ getSetting, updateSetting, toggleSetting }) => {
       >
         Format codeblocks before sending
       </SwitchItem>
-      <TextAreaInput
-        note={<>See <Anchor href={PRETTIER_CONFIG_DOCS}>{PRETTIER_CONFIG_DOCS}</Anchor></>}
-        value={getSetting('prettierConfig', '{\n\n}')}
-        onChange={val => updateSetting('prettierConfig', val)}
+
+      <Category
+        name="Prettier settings"
+        description={
+          <>
+            See{' '}
+            <Anchor
+              href={PRETTIER_CONFIG_DOCS}
+              onClick={e => e.stopPropagation()}
+            >
+              {PRETTIER_CONFIG_DOCS}
+            </Anchor>{' '}
+            for a more detailed explanation
+          </>
+        }
+        opened={prettierOpened}
+        onChange={() => setPrettierOpened(!prettierOpened)}
       >
-        Prettier config (JSON format)
-      </TextAreaInput>
+        <PrettierSettings {...props} />
+      </Category>
     </div>
   );
 };

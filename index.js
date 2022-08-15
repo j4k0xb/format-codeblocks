@@ -115,7 +115,7 @@ module.exports = class FormatCodeblocks extends Plugin {
         return JSON.stringify(JSON.parse(code), null, 2);
       }
 
-      const config = JSON.parse(this.settings.get('prettierConfig', '{}'));
+      const config = this.getConfig();
       const parser = this.getParser(lang);
       if (!parser) return code;
 
@@ -123,8 +123,17 @@ module.exports = class FormatCodeblocks extends Plugin {
         .format(code, { ...config, parser, plugins })
         .trim();
     } catch (error) {
+      if (!(error instanceof SyntaxError)) this.error(error);
       return code;
     }
+  }
+
+  getConfig() {
+    const config = {};
+    for (const key of this.settings.getKeys()) {
+      if (key.startsWith('prettier-')) config[key.replace('prettier-', '')] = this.settings.get(key);
+    }
+    return config;
   }
 
   /**
