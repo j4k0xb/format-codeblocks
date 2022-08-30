@@ -170,9 +170,6 @@ module.exports = class FormatCodeblocks extends Plugin {
       case 'plist':
       case 'svg':
         return 'html';
-      case 'markdown':
-      case 'md':
-        return 'markdown';
       case 'less':
       case 'css':
       case 'scss':
